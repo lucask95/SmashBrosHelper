@@ -35,7 +35,9 @@ function generateImage() {
         var tag = $("#player" + (i + 1)).val();
         ctx.font = "1rem Roboto";
         ctx.fillStyle = "#000";
-        ctx.fillText(tag, 10, i * 10 + 10 + (i * 20));
+        var x = (Math.floor(i / 5) * 100) + 20;
+        var y = ((i % 5) * 10) + 10 + ((i % 5) * 20);
+        ctx.fillText(tag, x, y);
     }
 
 }
