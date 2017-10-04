@@ -8,6 +8,15 @@ class Player {
     }
 }
 
+// used for drawing nametags
+var topOffset = 75;
+var leftOffset = 40;
+var lineHeight = 10;
+var lineWidth = 200;
+var ySpace = lineHeight + 20;
+var playersPerCol = 5;
+
+// canvas and context
 var canvas;
 var ctx;
 
@@ -44,13 +53,6 @@ function clearCanvas() {
 }
 
 function drawText(players) {
-    var topOffset = 75;
-    var leftOffset = 20;
-    var lineHeight = 10;
-    var lineWidth = 200;
-    var ySpace = lineHeight + 20;
-    var playersPerCol = 5;
-
     // this is just to save time during testing
     var placeHolders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
     "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic",
@@ -65,8 +67,8 @@ function drawText(players) {
         }
 
         // calculate x and y position of text, line breaks for readability
-        var x = (Math.floor(i / playersPerCol) * lineWidth) +
-                topOffset;
+        var x = leftOffset +
+                (Math.floor(i / playersPerCol) * lineWidth);
 
         var y = topOffset +
                 ((i % playersPerCol) * lineHeight) +
@@ -74,8 +76,30 @@ function drawText(players) {
 
         // draw text on the canvas
         ctx.font = "1rem Roboto";
+        ctx.fillStyle = "#FFF";
+        ctx.fillText(String(i + 1) + ". " + tempPlayer.tag, x, y);
+    }
+}
+
+function drawNametags(n) {
+    // draws boxes that go behind tags
+    var boxWidth = lineWidth - 50;
+    var boxHeight = lineHeight + 20;
+
+    for (var i = 0; i < n; i++) {
+        var x = leftOffset +
+                (Math.floor(i / playersPerCol) * lineWidth) -
+                10;
+
+        var y = topOffset +
+                ((i % playersPerCol) * lineHeight) +
+                ((i % playersPerCol) * ySpace) -
+                20;
+
         ctx.fillStyle = "#000";
-        ctx.fillText(tempPlayer.tag, x, y);
+        ctx.globalAlpha = 0.4;
+        ctx.fillRect(x, y, boxWidth, boxHeight);
+        ctx.globalAlpha = 1.0;
     }
 }
 
@@ -86,6 +110,7 @@ function generateImage() {
     clearCanvas();
     // getTags()
     // calcRanks()
+    drawNametags(players.length);
     drawText(players);
 }
 
