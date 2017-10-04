@@ -1,3 +1,13 @@
+class Player {
+    constructor() {
+        this.tag = "";
+        this.character = "";
+        this.rank = -1;
+        this.prevRank = -1;
+        this.change = "";
+    }
+}
+
 var canvas;
 var ctx;
 
@@ -33,9 +43,13 @@ function clearCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function drawText() {
-    var nPlayers = parseInt($("#numPlayers").val());
-    var tags = [];
+function drawText(players) {
+    var topOffset = 75;
+    var leftOffset = 20;
+    var lineHeight = 10;
+    var lineWidth = 200;
+    var ySpace = lineHeight + 20;
+    var playersPerCol = 5;
 
     // this is just to save time during testing
     var placeHolders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
@@ -43,26 +57,36 @@ function drawText() {
     "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
     "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe"];
 
-    for (var i = 0; i < nPlayers; i++) {
-        var tag = $("#player" + (i + 1)).val();
-        if (tag.trim() == "") {
-            tag = placeHolders[Math.floor(Math.random() * placeHolders.length)];
+    for (var i = 0; i < players.length; i++) {
+        // get tag for player i, if empty, use placeholder
+        var tempPlayer = players[i];
+        if (tempPlayer.tag.trim() == "") {
+            tempPlayer.tag = placeHolders[Math.floor(Math.random() * placeHolders.length)];
         }
 
-        // calculate x and y position of text
-        var x = (Math.floor(i / 5) * 100) + 20;
-        var y = ((i % 5) * 10) + 10 + ((i % 5) * 20);
+        // calculate x and y position of text, line breaks for readability
+        var x = (Math.floor(i / playersPerCol) * lineWidth) +
+                topOffset;
+
+        var y = topOffset +
+                ((i % playersPerCol) * lineHeight) +
+                ((i % playersPerCol) * ySpace);
 
         // draw text on the canvas
         ctx.font = "1rem Roboto";
         ctx.fillStyle = "#000";
-        ctx.fillText(tag, x, y);
+        ctx.fillText(tempPlayer.tag, x, y);
     }
 }
 
 function generateImage() {
+    var players = [];
+    for (var i = 0; i < parseInt($("#numPlayers").val()); i++)
+        players.push(new Player());
     clearCanvas();
-    drawText();
+    // getTags()
+    // calcRanks()
+    drawText(players);
 }
 
 $(document).ready(function() {

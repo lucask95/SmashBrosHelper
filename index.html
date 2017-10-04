@@ -24,24 +24,48 @@
             </div>
         </header>
 
-
         <div class="row content-row">
 			<div class="col">
 				<h3>PR Image Generator</h3>
+
+				<!-- Canvas
+				-------------------------------->
+
 				<canvas id="prCanvas" width="851" height="315">
 				</canvas>
+
 				<div>
+
+					<!-- Controls
+					-------------------------------->
+
 					<div class="form-group row">
-						<label for="rowsIn" class="col-sm-3 col-form-label">Players on the PR</label>
+						<label for="prTitle" class="col-sm-3 col-form-label">PR Title</label>
+						<input id="prTitle" class="col-sm-4 form-control" type="text" placeholder="Ex: NorCal Melee"/>
+					</div>
+
+					<div class="form-group row">
+						<label for="prTitle" class="col-sm-3 col-form-label">PR Subtitle</label>
+						<input id="prTitle" class="col-sm-4 form-control" type="text" placeholder="Ex: Fall 2017"/>
+					</div>
+
+					<div class="form-group row">
+						<label for="numPlayers" class="col-sm-3 col-form-label">Players on the PR</label>
 						<select id="numPlayers" class="col-sm-3 form-control">
 							<option value="10">10</option>
 							<option value="15">15</option>
 							<option value="20">20</option>
 						</select>
 					</div>
+
+					<!-- input area
+					-------------------------------->
+
 					<form id="inputForm" class="row">
 					</form>
+
 					<button class="btn btn-primary" id="goBtn">Generate</button>
+
 				</div>
 			</div>
         </div>
