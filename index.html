@@ -20,7 +20,7 @@
 
         <header class="row">
             <div class="col">
-                <h1>Smash Bros Helper</h1>
+                <h1></h1>
             </div>
         </header>
 
@@ -31,12 +31,14 @@
 				<canvas id="prCanvas" width="851" height="315">
 				</canvas>
 				<div>
-					<select id="numPlayers">
-						<option value="10">10</option>
-						<option value="15">15</option>
-						<option value="20">20</option>
-					</select>
-					players on the PR
+					<div class="form-group row">
+						<label for="rowsIn" class="col-sm-3 col-form-label">Players on the PR</label>
+						<select id="numPlayers" class="col-sm-3 form-control">
+							<option value="10">10</option>
+							<option value="15">15</option>
+							<option value="20">20</option>
+						</select>
+					</div>
 					<form id="inputForm" class="row">
 					</form>
 					<button class="btn btn-primary" id="goBtn">Generate</button>

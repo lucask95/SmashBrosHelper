@@ -4,8 +4,8 @@ header {
     color: white;
 }
 
-.content-row canvas {
-    
+canvas {
+    margin: 10px 0px;
 }
 
 #inputForm {
