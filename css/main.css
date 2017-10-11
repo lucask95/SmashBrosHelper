@@ -8,6 +8,10 @@ canvas {
     margin: 10px 0px;
 }
 
+#fileBtn {
+    margin-left: 10px;
+}
+
 #inputForm {
     margin: 15px 0px;
     background-color: #e7e7e7;

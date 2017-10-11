@@ -103,6 +103,26 @@ function drawNametags(n) {
     }
 }
 
+function drawBgImage(players) {
+    var file = document.getElementById("bgImageInput").files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+        var img = new Image();
+
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            drawNametags(players.length);
+            drawText(players);
+        }
+
+        img.src = event.target.result;
+    }
+
+    if (file)
+        reader.readAsDataURL(file);
+}
+
 function generateImage() {
     var players = [];
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++)
@@ -110,8 +130,7 @@ function generateImage() {
     clearCanvas();
     // getTags()
     // calcRanks()
-    drawNametags(players.length);
-    drawText(players);
+    drawBgImage(players);
 }
 
 $(document).ready(function() {
