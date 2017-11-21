@@ -111,7 +111,10 @@ function drawBgImage(players) {
         var img = new Image();
 
         img.onload = function() {
-            ctx.drawImage(img, 0, 0);
+            var xcoord = (img.width - canvas.width) / -2;
+            var ycoord = (img.height - canvas.height) / -2;
+            console.log(xcoord, ycoord)
+            ctx.drawImage(img, xcoord, ycoord);
             drawNametags(players.length);
             drawText(players);
         }
