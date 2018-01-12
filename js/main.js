@@ -9,25 +9,20 @@ class Player {
 }
 
 // used for drawing nametags
-
 const COVER_IMAGE_HEIGHT = 470;
 const COVER_IMAGE_WIDTH = 820;
 const VISIBLE_COVER_IMAGE_HEIGHT = 320;
-
 const X_OFFSET = 40;
 const Y_OFFSET = 75;
 const LINE_WIDTH = 200;
 const LINE_HEIGHT = 10;
 const Y_SPACE = LINE_HEIGHT + 20;
 const PLAYERS_PER_COLUMN = 5;
+const TEXT_X_OFFSET = 7;
+const TEXT_Y_OFFSET = 21;
 
-var topOffset = 75;
-var leftOffset = 40;
-var lineHeight = 10;
-var lineWidth = 200;
-var xSpace = 0;
-var ySpace = 0;
-var playersPerCol = 5;
+var boxWidth = 150;
+var boxHeight = 30;
 
 // canvas and context
 var canvas;
@@ -97,12 +92,14 @@ function drawText(players) {
         }
 
         // calculate x and y position of text, line breaks for readability
-        var x = leftOffset +
-                (Math.floor(i / playersPerCol) * lineWidth);
+        var x = TEXT_X_OFFSET +
+                (xSpace * (Math.floor(i / 5) + 1)) +
+                (boxWidth * Math.floor(i / 5));
 
-        var y = topOffset +
-                ((i % playersPerCol) * lineHeight) +
-                ((i % playersPerCol) * ySpace);
+        var y = TEXT_Y_OFFSET +
+                yHeadroom +
+                (ySpace * ((i % 5) + 1)) +
+                (boxHeight * Math.floor(i % 5));
 
         // draw text on the canvas
         ctx.font = "1rem Roboto";
@@ -117,8 +114,6 @@ function drawNametags() {
     console.log(players);
 
     // draws boxes that go behind tags
-    var boxWidth = lineWidth - 50;
-    var boxHeight = lineHeight + 20;
     var n = players.length;
 
     yHeadroom = (COVER_IMAGE_HEIGHT - VISIBLE_COVER_IMAGE_HEIGHT) / 2;
