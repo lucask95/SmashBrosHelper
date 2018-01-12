@@ -1,14 +1,22 @@
 class Player {
-    constructor() {
+    constructor(tag, char, rank, prevRank) {
         this.tag = "";
         this.character = "";
         this.rank = -1;
         this.prevRank = -1;
-        this.change = "";
+        this.change = this.prevRank - this.rank;
     }
 }
 
 // used for drawing nametags
+
+const X_OFFSET = 40;
+const Y_OFFSET = 75;
+const LINE_WIDTH = 200;
+const LINE_HEIGHT = 10;
+const Y_SPACE = LINE_HEIGHT + 20;
+const PLAYERS_PER_COL = 5;
+
 var topOffset = 75;
 var leftOffset = 40;
 var lineHeight = 10;
@@ -52,11 +60,23 @@ function clearCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function getPlayers() {
+    var players = [];
+    for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
+        var tag = $("player" + (i + 1)).val();
+        //var tempChar = $("char" + (i + 1)).val();
+        var char = "Fox";
+        var tempPlayer = new Player(tag, char, (i + 1), 1);
+        players.push(tempPlayer);
+    }
+    return players;
+}
+
 function drawText(players) {
     // this is just to save time during testing
     var placeHolders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
-    "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic",
-    "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
+    "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
+    "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
     "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe"];
 
     for (var i = 0; i < players.length; i++) {
@@ -81,10 +101,11 @@ function drawText(players) {
     }
 }
 
-function drawNametags(n) {
+function drawNametags(players) {
     // draws boxes that go behind tags
     var boxWidth = lineWidth - 50;
     var boxHeight = lineHeight + 20;
+    var n = players.length;
 
     for (var i = 0; i < n; i++) {
         var x = leftOffset +
@@ -101,22 +122,27 @@ function drawNametags(n) {
         ctx.fillRect(x, y, boxWidth, boxHeight);
         ctx.globalAlpha = 1.0;
     }
+
+    // after boxes to go behind the text have been drawn, draw the text
+    drawText(players);
 }
 
 function drawBgImage(players) {
     var file = document.getElementById("bgImageInput").files[0];
     var reader = new FileReader();
 
+    // callback function for when the image is loaded
     reader.onload = function(event) {
         var img = new Image();
 
         img.onload = function() {
+            // calculate the proper x and y coordinates for a centered image
             var xcoord = (img.width - canvas.width) / -2;
             var ycoord = (img.height - canvas.height) / -2;
-            console.log(xcoord, ycoord)
             ctx.drawImage(img, xcoord, ycoord);
-            drawNametags(players.length);
-            drawText(players);
+
+            // draw nametags on top of the image
+            drawNametags(players);
         }
 
         img.src = event.target.result;
@@ -124,6 +150,11 @@ function drawBgImage(players) {
 
     if (file)
         reader.readAsDataURL(file);
+    else {
+        // if no image specified, pick a random color for the background and
+        // then draw the name tags
+        drawNametags(players);
+    }
 }
 
 function generateImage() {
