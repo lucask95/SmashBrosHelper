@@ -8,6 +8,44 @@ class Player {
     }
 }
 
+var charSelect = "<option value=\"Fox\"><img src=\"img\\StockIcons\\Fox.png\"></option>" +
+    "<option value=\"Falco\"><img src=\"img\\StockIcons\\Falco.png\"></option>" +
+    "<option value=\"Marth\"><img src=\"img\\StockIcons\\Marth.png\"></option>" +
+    "<option value=\"Sheik\"><img src=\"img\\StockIcons\\Sheik.png\"></option>" +
+    "<option value=\"Peach\"><img src=\"img\\StockIcons\\Peach.png\"></option>" +
+    "<option value=\"Jigglypuff\"><img src=\"img\\StockIcons\\Jigglypuff.png\"></option>" +
+    "<option value=\"CaptainFalcon\"><img src=\"img\\StockIcons\\CaptainFalcon.png\"></option>" +
+    "<option value=\"IceClimbers\"><img src=\"img\\StockIcons\\IceClimbers.png\"></option>" +
+    "<option value=\"Pikachu\"><img src=\"img\\StockIcons\\Pikachu.png\"></option>" +
+    "<option value=\"Samus\"><img src=\"img\\StockIcons\\Samus.png\"></option>" +
+    "<option value=\"Luigi\"><img src=\"img\\StockIcons\\Luigi.png\"></option>" +
+    "<option value=\"DrMario\"><img src=\"img\\StockIcons\\DrMario.png\"></option>" +
+    "<option value=\"Yoshi\"><img src=\"img\\StockIcons\\Yoshi.png\"></option>" +
+    "<option value=\"Ganondorf\"><img src=\"img\\StockIcons\\Ganondorf.png\"></option>" +
+    "<option value=\"Mario\"><img src=\"img\\StockIcons\\Mario.png\"></option>" +
+    "<option value=\"YoungLink\"><img src=\"img\\StockIcons\\YoungLink.png\"></option>" +
+    "<option value=\"DonkeyKong\"><img src=\"img\\StockIcons\\DonkeyKong.png\"></option>" +
+    "<option value=\"Link\"><img src=\"img\\StockIcons\\Link.png\"></option>" +
+    "<option value=\"GameWatch\"><img src=\"img\\StockIcons\\GameWatch.png\"></option>" +
+    "<option value=\"Roy\"><img src=\"img\\StockIcons\\Roy.png\"></option>" +
+    "<option value=\"Mewtwo\"><img src=\"img\\StockIcons\\Mewtwo.png\"></option>" +
+    "<option value=\"Zelda\"><img src=\"img\\StockIcons\\Zelda.png\"></option>" +
+    "<option value=\"Ness\"><img src=\"img\\StockIcons\\Ness.png\"></option>" +
+    "<option value=\"Pichu\"><img src=\"img\\StockIcons\\Pichu.png\"></option>" +
+    "<option value=\"Bowser\"><img src=\"img\\StockIcons\\Bowser.png\"></option>" +
+    "<option value=\"Kirby\"><img src=\"img\\StockIcons\\Kirby.png\"></option>" +
+    "</select>";
+
+/*
+<select id="displayNumber">
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="all">All</option>
+</select>
+*/
+
+
 // used for drawing nametags
 const COVER_IMAGE_HEIGHT = 470;
 const COVER_IMAGE_WIDTH = 820;
@@ -19,10 +57,10 @@ const LINE_HEIGHT = 10;
 const Y_SPACE = LINE_HEIGHT + 20;
 const PLAYERS_PER_COLUMN = 5;
 const TEXT_X_OFFSET = 7;
-const TEXT_Y_OFFSET = 21;
+const TEXT_Y_OFFSET = 23;
 
-var boxWidth = 150;
-var boxHeight = 30;
+var boxWidth = 170;
+var boxHeight = 35;
 
 // canvas and context
 var canvas;
@@ -48,6 +86,8 @@ function drawInputs() {
         var inputText = "<input type=\"text\" id=\"player" + (i + 1) +
             "\" placeholder=\"Rank #" + (i + 1) + "\" class=\"form-control\" />";
         $("#inputCol" + col).append(inputText);
+        var tempCharSelect = "<select id=\"char" + (i + 1) + "\" class=\"form-control\">" + charSelect;
+        $("#inputCol" + col).append(tempCharSelect);
     }
 }
 
@@ -82,7 +122,7 @@ function drawText(players) {
     var placeHolders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
     "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
     "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
-    "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe"];
+    "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
 
     for (var i = 0; i < players.length; i++) {
         // get tag for player i, if empty, use placeholder
@@ -119,19 +159,19 @@ function drawNametags() {
     yHeadroom = (COVER_IMAGE_HEIGHT - VISIBLE_COVER_IMAGE_HEIGHT) / 2;
     xSpace = (COVER_IMAGE_WIDTH - (boxWidth * Math.floor(n / 5))) / ((n / 5) + 1);
     ySpace = (VISIBLE_COVER_IMAGE_HEIGHT - (boxHeight * PLAYERS_PER_COLUMN)) / (PLAYERS_PER_COLUMN + 1);
-    console.log(xSpace, boxWidth, n, (n / 5) + 1);
 
     for (var i = 0; i < n; i++) {
         // calculate x and y position of each nametag
         var x = (xSpace * (Math.floor(i / 5) + 1)) +
                 (boxWidth * Math.floor(i / 5));
+
         var y = yHeadroom +
                 (ySpace * ((i % 5) + 1)) +
                 (boxHeight * Math.floor(i % 5));
 
         // fill nametag with translucent black
         ctx.fillStyle = "#000";
-        ctx.globalAlpha = 0.4;
+        ctx.globalAlpha = 0.35;
         ctx.fillRect(x, y, boxWidth, boxHeight);
         ctx.globalAlpha = 1.0;
     }
