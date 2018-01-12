@@ -10,23 +10,29 @@ class Player {
 
 // used for drawing nametags
 
+const COVER_IMAGE_HEIGHT = 470;
+const COVER_IMAGE_WIDTH = 820;
+const VISIBLE_COVER_IMAGE_HEIGHT = 320;
+
 const X_OFFSET = 40;
 const Y_OFFSET = 75;
 const LINE_WIDTH = 200;
 const LINE_HEIGHT = 10;
 const Y_SPACE = LINE_HEIGHT + 20;
-const PLAYERS_PER_COL = 5;
+const PLAYERS_PER_COLUMN = 5;
 
 var topOffset = 75;
 var leftOffset = 40;
 var lineHeight = 10;
 var lineWidth = 200;
-var ySpace = lineHeight + 20;
+var xSpace = 0;
+var ySpace = 0;
 var playersPerCol = 5;
 
 // canvas and context
 var canvas;
 var ctx;
+
 
 function drawInputs() {
     var nPlayers = parseInt($("#numPlayers").val());
@@ -50,15 +56,18 @@ function drawInputs() {
     }
 }
 
+
 function initCanvas() {
     canvas = document.getElementById('prCanvas');
     ctx = canvas.getContext('2d');
 }
 
+
 function clearCanvas() {
     ctx.fillStyle = "#e3e3e3";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
 
 function getPlayers() {
     var players = [];
@@ -71,6 +80,7 @@ function getPlayers() {
     }
     return players;
 }
+
 
 function drawText(players) {
     // this is just to save time during testing
@@ -101,22 +111,30 @@ function drawText(players) {
     }
 }
 
-function drawNametags(players) {
+
+function drawNametags() {
+    var players = getPlayers();
+    console.log(players);
+
     // draws boxes that go behind tags
     var boxWidth = lineWidth - 50;
     var boxHeight = lineHeight + 20;
     var n = players.length;
 
+    yHeadroom = (COVER_IMAGE_HEIGHT - VISIBLE_COVER_IMAGE_HEIGHT) / 2;
+    xSpace = (COVER_IMAGE_WIDTH - (boxWidth * Math.floor(n / 5))) / ((n / 5) + 1);
+    ySpace = (VISIBLE_COVER_IMAGE_HEIGHT - (boxHeight * PLAYERS_PER_COLUMN)) / (PLAYERS_PER_COLUMN + 1);
+    console.log(xSpace, boxWidth, n, (n / 5) + 1);
+
     for (var i = 0; i < n; i++) {
-        var x = leftOffset +
-                (Math.floor(i / playersPerCol) * lineWidth) -
-                10;
+        // calculate x and y position of each nametag
+        var x = (xSpace * (Math.floor(i / 5) + 1)) +
+                (boxWidth * Math.floor(i / 5));
+        var y = yHeadroom +
+                (ySpace * ((i % 5) + 1)) +
+                (boxHeight * Math.floor(i % 5));
 
-        var y = topOffset +
-                ((i % playersPerCol) * lineHeight) +
-                ((i % playersPerCol) * ySpace) -
-                20;
-
+        // fill nametag with translucent black
         ctx.fillStyle = "#000";
         ctx.globalAlpha = 0.4;
         ctx.fillRect(x, y, boxWidth, boxHeight);
@@ -126,6 +144,7 @@ function drawNametags(players) {
     // after boxes to go behind the text have been drawn, draw the text
     drawText(players);
 }
+
 
 function drawBgImage(players) {
     var file = document.getElementById("bgImageInput").files[0];
@@ -142,7 +161,7 @@ function drawBgImage(players) {
             ctx.drawImage(img, xcoord, ycoord);
 
             // draw nametags on top of the image
-            drawNametags(players);
+            drawNametags();
         }
 
         img.src = event.target.result;
@@ -153,9 +172,10 @@ function drawBgImage(players) {
     else {
         // if no image specified, pick a random color for the background and
         // then draw the name tags
-        drawNametags(players);
+        drawNametags();
     }
 }
+
 
 function generateImage() {
     var players = [];
@@ -166,6 +186,7 @@ function generateImage() {
     // calcRanks()
     drawBgImage(players);
 }
+
 
 $(document).ready(function() {
     drawInputs();
