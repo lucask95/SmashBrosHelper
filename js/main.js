@@ -8,32 +8,32 @@ class Player {
     }
 }
 
-var charSelect = "<option value=\"Fox\"><img src=\"img\\StockIcons\\Fox.png\"></option>" +
-    "<option value=\"Falco\"><img src=\"img\\StockIcons\\Falco.png\"></option>" +
-    "<option value=\"Marth\"><img src=\"img\\StockIcons\\Marth.png\"></option>" +
-    "<option value=\"Sheik\"><img src=\"img\\StockIcons\\Sheik.png\"></option>" +
-    "<option value=\"Peach\"><img src=\"img\\StockIcons\\Peach.png\"></option>" +
-    "<option value=\"Jigglypuff\"><img src=\"img\\StockIcons\\Jigglypuff.png\"></option>" +
-    "<option value=\"CaptainFalcon\"><img src=\"img\\StockIcons\\CaptainFalcon.png\"></option>" +
-    "<option value=\"IceClimbers\"><img src=\"img\\StockIcons\\IceClimbers.png\"></option>" +
-    "<option value=\"Pikachu\"><img src=\"img\\StockIcons\\Pikachu.png\"></option>" +
-    "<option value=\"Samus\"><img src=\"img\\StockIcons\\Samus.png\"></option>" +
-    "<option value=\"Luigi\"><img src=\"img\\StockIcons\\Luigi.png\"></option>" +
-    "<option value=\"DrMario\"><img src=\"img\\StockIcons\\DrMario.png\"></option>" +
-    "<option value=\"Yoshi\"><img src=\"img\\StockIcons\\Yoshi.png\"></option>" +
-    "<option value=\"Ganondorf\"><img src=\"img\\StockIcons\\Ganondorf.png\"></option>" +
-    "<option value=\"Mario\"><img src=\"img\\StockIcons\\Mario.png\"></option>" +
-    "<option value=\"YoungLink\"><img src=\"img\\StockIcons\\YoungLink.png\"></option>" +
-    "<option value=\"DonkeyKong\"><img src=\"img\\StockIcons\\DonkeyKong.png\"></option>" +
-    "<option value=\"Link\"><img src=\"img\\StockIcons\\Link.png\"></option>" +
-    "<option value=\"GameWatch\"><img src=\"img\\StockIcons\\GameWatch.png\"></option>" +
-    "<option value=\"Roy\"><img src=\"img\\StockIcons\\Roy.png\"></option>" +
-    "<option value=\"Mewtwo\"><img src=\"img\\StockIcons\\Mewtwo.png\"></option>" +
-    "<option value=\"Zelda\"><img src=\"img\\StockIcons\\Zelda.png\"></option>" +
-    "<option value=\"Ness\"><img src=\"img\\StockIcons\\Ness.png\"></option>" +
-    "<option value=\"Pichu\"><img src=\"img\\StockIcons\\Pichu.png\"></option>" +
-    "<option value=\"Bowser\"><img src=\"img\\StockIcons\\Bowser.png\"></option>" +
-    "<option value=\"Kirby\"><img src=\"img\\StockIcons\\Kirby.png\"></option>" +
+var charSelect = "<option value=\"Fox\">Fox</option>" +
+    "<option value=\"Falco\">Falco</option>" +
+    "<option value=\"Marth\">Marth</option>" +
+    "<option value=\"Sheik\">Sheik</option>" +
+    "<option value=\"Peach\">Peach</option>" +
+    "<option value=\"Jigglypuff\">Jigglypuff</option>" +
+    "<option value=\"CaptainFalcon\">Captain Falcon</option>" +
+    "<option value=\"IceClimbers\">Ice Climbers</option>" +
+    "<option value=\"Pikachu\">Pikachu</option>" +
+    "<option value=\"Samus\">Samus</option>" +
+    "<option value=\"Luigi\">Luigi</option>" +
+    "<option value=\"DrMario\">DrMario</option>" +
+    "<option value=\"Yoshi\">Yoshi</option>" +
+    "<option value=\"Ganondorf\">Ganondorf</option>" +
+    "<option value=\"Mario\">Mario</option>" +
+    "<option value=\"YoungLink\">Young Link</option>" +
+    "<option value=\"DonkeyKong\">Donkey Kong</option>" +
+    "<option value=\"Link\">Link</option>" +
+    "<option value=\"GameWatch\">Game & Watch</option>" +
+    "<option value=\"Roy\">Roy</option>" +
+    "<option value=\"Mewtwo\">Mewtwo</option>" +
+    "<option value=\"Zelda\">Zelda</option>" +
+    "<option value=\"Ness\">Ness</option>" +
+    "<option value=\"Pichu\">Pichu</option>" +
+    "<option value=\"Bowser\">Bowser</option>" +
+    "<option value=\"Kirby\">Kirby</option>" +
     "</select>";
 
 /*
