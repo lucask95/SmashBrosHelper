@@ -159,15 +159,23 @@ function drawText(players) {
         ctx.font = "1rem Roboto";
         ctx.fillStyle = "#FFF";
         ctx.fillText(String(i + 1) + ". " + tempPlayer.tag, x, y);
+
+        /*
+        var stockIcon = new Image();
+        stockIcon.src = "./img/StockIcons/Fox.png";
+        stockIcon.onload = function() {
+            // calculate the proper x and y coordinates for a centered image
+            var xcoord = (img.width - canvas.width) / -2;
+            var ycoord = (img.height - canvas.height) / -2;
+            ctx.drawImage(img, xcoord, ycoord);
+        }
+        */
     }
 }
 
-
+// draws boxes that go behind tags
 function drawNametags() {
     var players = getPlayers();
-    console.log(players);
-
-    // draws boxes that go behind tags
     var n = players.length;
 
     yHeadroom = (COVER_IMAGE_HEIGHT - VISIBLE_COVER_IMAGE_HEIGHT) / 2;

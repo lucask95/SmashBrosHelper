@@ -5,7 +5,7 @@ header {
 }
 
 canvas {
-    margin: 10px 0px;
+    margin: auto;
 }
 
 #fileBtn {
@@ -16,4 +16,14 @@ canvas {
     margin: 15px 0px;
     background-color: #e7e7e7;
     padding: 15px;
+}
+
+#controlsArea {
+    margin: 15px 0px;
+    background-color: #e7e7e7;
+    padding: 15px;
+}
+
+#canvasArea {
+    margin: auto;
 }
