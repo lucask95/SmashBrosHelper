@@ -74,18 +74,18 @@ function drawInputs() {
     // empty input area
     $("#inputForm").html("");
 
-    /*
     for (var i = 0; i < nPlayers; i++)
     {
         var tempRow = "<div class=\"row\" id=\"row" + (i + 1) + "\"></div>"
-        var inputText = "<input type=\"text\" class=\"col form-control\" id=\"player" + (i + 1) +
-            "\" placeholder=\"Rank #" + (i + 1) + "\"/>";
-        var tempCharSelect = "<select class=\"col form-control\" id=\"char" + (i + 1) + "\">" + charSelect;
-        $("#row" + (i + 1)).append(inputText + tempCharSelect);
+        $("#inputForm").append(tempRow);
+        var inputText = "<input type=\"text\" class=\"col form-control\" id=\"player" + (i + 1) + "\" placeholder=\"Rank #" + (i + 1) + "\"/>";
+        var charSelectText = "<select class=\"col form-control\" id=\"char" + (i + 1) + "\">" + charSelect;
+        $("#row" + (i + 1)).append(inputText);
+        $("#row" + (i + 1)).append(charSelectText);
     }
-    */
 
     // create 1 column per 5 players on the pr
+    /*
     for (var i = 0; i < nColumns; i++) {
         var colText = "<div class=\"col\" id=\"inputCol" + i + "\"></div>";
         $("#inputForm").append(colText);
@@ -100,6 +100,7 @@ function drawInputs() {
         var tempCharSelect = "<select id=\"char" + (i + 1) + "\" class=\"form-control\">" + charSelect;
         $("#inputCol" + col).append(tempCharSelect);
     }
+    */
 }
 
 
@@ -127,12 +128,13 @@ function getPlayers() {
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
         var tag = $("#player" + (i + 1)).val();
         if (tag.trim() == "") {
-            tag = placeholders[Math.floor(Math.random() * placeHolders.length)];
+            tag = placeholders[Math.floor(Math.random() * placeholders.length)];
         }
         var char = "Fox";
         var tempPlayer = new Player(tag, char, (i + 1), 1);
         players.push(tempPlayer);
     }
+
     return players;
 }
 

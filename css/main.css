@@ -12,12 +12,8 @@ canvas {
     margin-left: 10px;
 }
 
-#inputForm {
+#inputArea {
     margin: 15px 0px;
     background-color: #e7e7e7;
     padding: 15px;
-}
-
-#inputForm input {
-    width: 100%;
 }
