@@ -1,9 +1,9 @@
 class Player {
     constructor(tag, char, rank, prevRank) {
         this.tag = tag;
-        this.character = "";
-        this.rank = -1;
-        this.prevRank = -1;
+        this.character = char;
+        this.rank = rank;
+        this.prevRank = prevRank;
         this.change = this.prevRank - this.rank;
     }
 }
@@ -76,31 +76,18 @@ function drawInputs() {
 
     for (var i = 0; i < nPlayers; i++)
     {
+        // create a row for each set of inputs
         var tempRow = "<div class=\"row\" id=\"row" + (i + 1) + "\"></div>"
         $("#inputForm").append(tempRow);
+
+        // text input and select dropdown for character
         var inputText = "<input type=\"text\" class=\"col form-control\" id=\"player" + (i + 1) + "\" placeholder=\"Rank #" + (i + 1) + "\"/>";
         var charSelectText = "<select class=\"col form-control\" id=\"char" + (i + 1) + "\">" + charSelect;
+
+        // put the text input and select dropdown into the form
         $("#row" + (i + 1)).append(inputText);
         $("#row" + (i + 1)).append(charSelectText);
     }
-
-    // create 1 column per 5 players on the pr
-    /*
-    for (var i = 0; i < nColumns; i++) {
-        var colText = "<div class=\"col\" id=\"inputCol" + i + "\"></div>";
-        $("#inputForm").append(colText);
-    }
-
-    // put 5 inputs into each column
-    for (var i = 0; i < nPlayers; i++) {
-        var col = Math.floor(i / 5);
-        var inputText = "<input type=\"text\" id=\"player" + (i + 1) +
-            "\" placeholder=\"Rank #" + (i + 1) + "\" class=\"form-control\" />";
-        $("#inputCol" + col).append(inputText);
-        var tempCharSelect = "<select id=\"char" + (i + 1) + "\" class=\"form-control\">" + charSelect;
-        $("#inputCol" + col).append(tempCharSelect);
-    }
-    */
 }
 
 
@@ -123,19 +110,50 @@ function getPlayers() {
     "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
     "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
 
+    var characterList = ["Fox", "Falco", "Marth", "Sheik", "Peach", "Jigglypuff",
+        "CaptainFalcon", "IceClimbers", "Pikachu", "Samus", "Luigi", "DrMario",
+        "Yoshi", "Ganondorf", "Mario", "YoungLink", "DonkeyKong", "Link",
+        "GameWatch", "Roy", "Mewtwo", "Zelda", "Ness", "Pichu", "Bowser", "Kirby"];
+
     var players = [];
 
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
         var tag = $("#player" + (i + 1)).val();
+        var char = $("#char" + (i + 1)).val();
         if (tag.trim() == "") {
             tag = placeholders[Math.floor(Math.random() * placeholders.length)];
+            char = characterList[Math.floor(Math.random() * characterList.length)];
         }
-        var char = "Fox";
         var tempPlayer = new Player(tag, char, (i + 1), 1);
         players.push(tempPlayer);
     }
 
     return players;
+}
+
+
+function drawIcon(k, players) {
+    var stockIcon = new Image();
+    stockIcon.src = "./img/StockIcons/" + String(players[k - 1].character) + ".png";
+    stockIcon.onload = function() {
+        var i = k - 1;
+
+        var x = (xSpace * (Math.floor(i / 5) + 1)) +
+                (boxWidth * Math.floor(i / 5)) +
+                boxWidth - stockIcon.width - TEXT_X_OFFSET;
+
+        var y = yHeadroom +
+                (ySpace * ((i % 5) + 1)) +
+                (boxHeight * Math.floor(i % 5)) +
+                (boxHeight - stockIcon.height) / 2;
+
+        ctx.drawImage(stockIcon, x, y);
+
+        // if have not drawn stock icon for each player, draw next icon
+        if (k < players.length) {
+            drawIcon((k + 1), players);
+        }
+    }
 }
 
 
@@ -159,19 +177,11 @@ function drawText(players) {
         ctx.font = "1rem Roboto";
         ctx.fillStyle = "#FFF";
         ctx.fillText(String(i + 1) + ". " + tempPlayer.tag, x, y);
-
-        /*
-        var stockIcon = new Image();
-        stockIcon.src = "./img/StockIcons/Fox.png";
-        stockIcon.onload = function() {
-            // calculate the proper x and y coordinates for a centered image
-            var xcoord = (img.width - canvas.width) / -2;
-            var ycoord = (img.height - canvas.height) / -2;
-            ctx.drawImage(img, xcoord, ycoord);
-        }
-        */
     }
+
+    drawIcon(1, players);
 }
+
 
 // draws boxes that go behind tags
 function drawNametags() {
@@ -203,7 +213,7 @@ function drawNametags() {
 }
 
 
-function drawBgImage(players) {
+function drawBgImage() {
     var file = document.getElementById("bgImageInput").files[0];
     var reader = new FileReader();
 
@@ -235,13 +245,9 @@ function drawBgImage(players) {
 
 
 function generateImage() {
-    var players = [];
-    for (var i = 0; i < parseInt($("#numPlayers").val()); i++)
-        players.push(new Player());
+    // clear canvas of previous content then draw the pieces of the image
     clearCanvas();
-    // getTags()
-    // calcRanks()
-    drawBgImage(players);
+    drawBgImage();
 }
 
 
