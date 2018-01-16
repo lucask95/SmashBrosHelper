@@ -1,6 +1,6 @@
 class Player {
     constructor(tag, char, rank, prevRank) {
-        this.tag = "";
+        this.tag = tag;
         this.character = "";
         this.rank = -1;
         this.prevRank = -1;
@@ -74,6 +74,17 @@ function drawInputs() {
     // empty input area
     $("#inputForm").html("");
 
+    /*
+    for (var i = 0; i < nPlayers; i++)
+    {
+        var tempRow = "<div class=\"row\" id=\"row" + (i + 1) + "\"></div>"
+        var inputText = "<input type=\"text\" class=\"col form-control\" id=\"player" + (i + 1) +
+            "\" placeholder=\"Rank #" + (i + 1) + "\"/>";
+        var tempCharSelect = "<select class=\"col form-control\" id=\"char" + (i + 1) + "\">" + charSelect;
+        $("#row" + (i + 1)).append(inputText + tempCharSelect);
+    }
+    */
+
     // create 1 column per 5 players on the pr
     for (var i = 0; i < nColumns; i++) {
         var colText = "<div class=\"col\" id=\"inputCol" + i + "\"></div>";
@@ -105,10 +116,19 @@ function clearCanvas() {
 
 
 function getPlayers() {
+    // this is just to save time during testing
+    var placeholders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
+    "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
+    "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
+    "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
+
     var players = [];
+
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
-        var tag = $("player" + (i + 1)).val();
-        //var tempChar = $("char" + (i + 1)).val();
+        var tag = $("#player" + (i + 1)).val();
+        if (tag.trim() == "") {
+            tag = placeholders[Math.floor(Math.random() * placeHolders.length)];
+        }
         var char = "Fox";
         var tempPlayer = new Player(tag, char, (i + 1), 1);
         players.push(tempPlayer);
@@ -118,18 +138,10 @@ function getPlayers() {
 
 
 function drawText(players) {
-    // this is just to save time during testing
-    var placeHolders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
-    "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
-    "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
-    "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
 
     for (var i = 0; i < players.length; i++) {
         // get tag for player i, if empty, use placeholder
         var tempPlayer = players[i];
-        if (tempPlayer.tag.trim() == "") {
-            tempPlayer.tag = placeHolders[Math.floor(Math.random() * placeHolders.length)];
-        }
 
         // calculate x and y position of text, line breaks for readability
         var x = TEXT_X_OFFSET +
