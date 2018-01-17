@@ -9,6 +9,7 @@ class Player {
     }
 }
 
+// these are used for putting inputs on the page
 var secondarySelect = "<option value=\"\">Secondary (If Applicable)</option>" +
      "<option value=\"\">None</option>";
 var charSelect = "<option value=\"Fox\">Fox</option>" +
@@ -61,6 +62,13 @@ var canvas;
 var ctx;
 
 
+// returns a random element of the given list
+function randomElement(a) {
+    return a[Math.floor(Math.random() * a.length)];
+}
+
+
+// puts the inputs onto the page
 function drawInputs() {
     var nPlayers = parseInt($("#numPlayers").val());
     var nColumns = nPlayers / 5;
@@ -99,14 +107,15 @@ function clearCanvas() {
 }
 
 
+// returns a list of player objects
 function getPlayers() {
     // these lists are just to save time during testing
-    var placeholders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
+    var tagList = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
     "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
     "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
     "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
 
-    var characterList = ["Fox", "Falco", "Marth", "Sheik", "Peach", "Jigglypuff",
+    var charList = ["Fox", "Falco", "Marth", "Sheik", "Peach", "Jigglypuff",
         "CaptainFalcon", "IceClimbers", "Pikachu", "Samus", "Luigi", "DrMario",
         "Yoshi", "Ganondorf", "Mario", "YoungLink", "DonkeyKong", "Link",
         "GameWatch", "Roy", "Mewtwo", "Zelda", "Ness", "Pichu", "Bowser", "Kirby"];
@@ -121,10 +130,10 @@ function getPlayers() {
         // if a tag has not been entered, randomize the tag and character
         // (mainly for testing)
         if (tag.trim() == "") {
-            tag = placeholders[Math.floor(Math.random() * placeholders.length)];
-            char = characterList[Math.floor(Math.random() * characterList.length)];
+            tag = randomElement(tagList);
+            char = randomElement(charList);
             if (Math.random() <= .25)
-                second = characterList[Math.floor(Math.random() * characterList.length)];
+                second = randomElement(charList);
             else
                 second = "";
         }
@@ -137,10 +146,18 @@ function getPlayers() {
 }
 
 
+// draws icons for each player's main character
 function drawIcon(k, players) {
     var stockIcon = new Image();
+
+    // set the source of the icon to the proper character
     stockIcon.src = "./img/StockIcons/" + String(players[k - 1].character) + ".png";
+
+    // once icon loads, draw it, then call drawIcon to draw the stock icon
+    // for the next player
     stockIcon.onload = function() {
+        // i exists only because I was too lazy to replace all instances of
+        // i with k-1
         var i = k - 1;
 
         var x = (xSpace * (Math.floor(i / 5) + 1)) +
@@ -162,9 +179,11 @@ function drawIcon(k, players) {
 }
 
 
+// draws icons for secondaries
 function drawSecondaries(k, players) {
     var stockIcon = new Image();
 
+    // if the kth player has no secondary, just draw the next icon
     if (players[k - 1].secondary == "") {
         if (k < players.length) {
             drawSecondaries((k + 1), players);
@@ -174,8 +193,11 @@ function drawSecondaries(k, players) {
         }
     }
     else {
+        // set the source of the icon to the proper character
         stockIcon.src = "./img/StockIcons/" + String(players[k - 1].secondary) + ".png";
         stockIcon.onload = function() {
+            // there should probably be some function that calculates the position
+            // for icons/nametag boxes/nametag text/etc.
             var i = k - 1;
 
             var x = (xSpace * (Math.floor(i / 5) + 1)) +
@@ -200,21 +222,34 @@ function drawSecondaries(k, players) {
     }
 }
 
-
+// get the title and subtitle text from inputs and draw it on the canvas
 function drawText(players) {
-
     var titleText = $("#prTitle").val();
     var subtitleText = $("#prSubtitle").val();
+
+    var areaPlaceholders = ["Davis", "NorCal", "925", "Oconomowoc", "Iqaluit",
+        "Ittoqqortoormiit", "Oymyakon", "La Rinconada", "Medog County"];
+
+    // if inputs are empty, generate random text
     if (titleText.trim() == "") {
-        titleText = "Davis Melee"
-        subtitleText = "Winter 2018 Rankings"
+        titleText = randomElement(areaPlaceholders) + " Melee";
+        subtitleText = "Winter 20XX Rankings"
     }
-    ctx.font = "1.5rem Roboto";
-    ctx.fillStyle = "#000";
+
+    // biggest text for the header text
+    ctx.font = "1.5em Roboto";
     ctx.textAlign="center";
-    ctx.fillText(titleText, COVER_IMAGE_WIDTH / 2, 50);
-    ctx.font = "1rem Roboto";
-    ctx.fillText(subtitleText, COVER_IMAGE_WIDTH / 2, 70);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 4;
+    ctx.strokeText(titleText, COVER_IMAGE_WIDTH / 2, 40);
+    ctx.fillStyle = "white";
+    ctx.fillText(titleText, COVER_IMAGE_WIDTH / 2, 40);
+
+    //smaller text for subtitle
+    ctx.font = "1.25em Roboto";
+    ctx.lineWidth = 4;
+    ctx.strokeText(subtitleText, COVER_IMAGE_WIDTH / 2, 60);
+    ctx.fillText(subtitleText, COVER_IMAGE_WIDTH / 2, 60);
 
     for (var i = 0; i < players.length; i++) {
         // get tag for player i, if empty, use placeholder
@@ -246,6 +281,8 @@ function drawNametags() {
     var players = getPlayers();
     var n = players.length;
 
+    // yHeadroom is the vertical space that is cropped by facebook
+    // xSpace is space between nametags in the x direction, similar for ySpace
     yHeadroom = (COVER_IMAGE_HEIGHT - VISIBLE_COVER_IMAGE_HEIGHT) / 2;
     xSpace = (COVER_IMAGE_WIDTH - (boxWidth * Math.floor(n / 5))) / ((n / 5) + 1);
     ySpace = (VISIBLE_COVER_IMAGE_HEIGHT - (boxHeight * PLAYERS_PER_COLUMN)) / (PLAYERS_PER_COLUMN + 1);

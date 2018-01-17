@@ -12,18 +12,9 @@ canvas {
     margin-left: 10px;
 }
 
-#inputArea {
+#inputArea, #controlsArea {
     margin: 15px 0px;
     background-color: #e7e7e7;
     padding: 15px;
-}
-
-#controlsArea {
-    margin: 15px 0px;
-    background-color: #e7e7e7;
-    padding: 15px;
-}
-
-#canvasArea {
-    margin: auto;
+    border-radius: 2px;
 }
