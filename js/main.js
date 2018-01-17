@@ -1,13 +1,16 @@
 class Player {
-    constructor(tag, char, rank, prevRank) {
+    constructor(tag, char, secondary, rank, prevRank) {
         this.tag = tag;
         this.character = char;
+        this.secondary = secondary;
         this.rank = rank;
         this.prevRank = prevRank;
         this.change = this.prevRank - this.rank;
     }
 }
 
+var secondarySelect = "<option value=\"\">Secondary (If Applicable)</option>" +
+     "<option value=\"\">None</option>";
 var charSelect = "<option value=\"Fox\">Fox</option>" +
     "<option value=\"Falco\">Falco</option>" +
     "<option value=\"Marth\">Marth</option>" +
@@ -35,15 +38,6 @@ var charSelect = "<option value=\"Fox\">Fox</option>" +
     "<option value=\"Bowser\">Bowser</option>" +
     "<option value=\"Kirby\">Kirby</option>" +
     "</select>";
-
-/*
-<select id="displayNumber">
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="100">100</option>
-    <option value="all">All</option>
-</select>
-*/
 
 
 // used for drawing nametags
@@ -83,10 +77,12 @@ function drawInputs() {
         // text input and select dropdown for character
         var inputText = "<input type=\"text\" class=\"col form-control\" id=\"player" + (i + 1) + "\" placeholder=\"Rank #" + (i + 1) + "\"/>";
         var charSelectText = "<select class=\"col form-control\" id=\"char" + (i + 1) + "\">" + charSelect;
+        var secondarySelectText = "<select class=\"col form-control\" id=\"secondary" + (i + 1) + "\">" + secondarySelect + charSelect;
 
         // put the text input and select dropdown into the form
         $("#row" + (i + 1)).append(inputText);
         $("#row" + (i + 1)).append(charSelectText);
+        $("#row" + (i + 1)).append(secondarySelectText);
     }
 }
 
@@ -120,15 +116,20 @@ function getPlayers() {
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
         var tag = $("#player" + (i + 1)).val();
         var char = $("#char" + (i + 1)).val();
+        var second = $("#secondary" + (i + 1)).val();
 
-        // if a tag has not been entered, randomize the tag and characterList
+        // if a tag has not been entered, randomize the tag and character
         // (mainly for testing)
         if (tag.trim() == "") {
             tag = placeholders[Math.floor(Math.random() * placeholders.length)];
             char = characterList[Math.floor(Math.random() * characterList.length)];
+            if (Math.random() <= .25)
+                second = characterList[Math.floor(Math.random() * characterList.length)];
+            else
+                second = "";
         }
 
-        var tempPlayer = new Player(tag, char, (i + 1), 1);
+        var tempPlayer = new Player(tag, char, second, (i + 1), 1);
         players.push(tempPlayer);
     }
 
@@ -156,6 +157,45 @@ function drawIcon(k, players) {
         // if have not drawn stock icon for each player, draw next icon
         if (k < players.length) {
             drawIcon((k + 1), players);
+        }
+    }
+}
+
+
+function drawSecondaries(k, players) {
+    var stockIcon = new Image();
+
+    if (players[k - 1].secondary == "") {
+        if (k < players.length) {
+            drawSecondaries((k + 1), players);
+        }
+        else {
+            drawIcon(1, players);
+        }
+    }
+    else {
+        stockIcon.src = "./img/StockIcons/" + String(players[k - 1].secondary) + ".png";
+        stockIcon.onload = function() {
+            var i = k - 1;
+
+            var x = (xSpace * (Math.floor(i / 5) + 1)) +
+                    (boxWidth * Math.floor(i / 5)) +
+                    boxWidth - stockIcon.width - (3 * TEXT_X_OFFSET);
+
+            var y = yHeadroom +
+                    (ySpace * ((i % 5) + 1)) +
+                    (boxHeight * Math.floor(i % 5)) +
+                    (boxHeight - stockIcon.height) / 2;
+
+            ctx.drawImage(stockIcon, x, y);
+
+            // if have not drawn stock icon for each player, draw next icon
+            if (k < players.length) {
+                drawSecondaries((k + 1), players);
+            }
+            else {
+                drawIcon(1, players);
+            }
         }
     }
 }
@@ -197,7 +237,7 @@ function drawText(players) {
         ctx.fillText(String(i + 1) + ". " + tempPlayer.tag, x, y);
     }
 
-    drawIcon(1, players);
+    drawSecondaries(1, players);
 }
 
 
@@ -221,7 +261,7 @@ function drawNametags() {
 
         // fill nametag with translucent black
         ctx.fillStyle = "#000";
-        ctx.globalAlpha = 0.35;
+        ctx.globalAlpha = 0.45;
         ctx.fillRect(x, y, boxWidth, boxHeight);
         ctx.globalAlpha = 1.0;
     }
