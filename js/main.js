@@ -104,7 +104,7 @@ function clearCanvas() {
 
 
 function getPlayers() {
-    // this is just to save time during testing
+    // these lists are just to save time during testing
     var placeholders = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
     "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
     "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
@@ -120,10 +120,14 @@ function getPlayers() {
     for (var i = 0; i < parseInt($("#numPlayers").val()); i++) {
         var tag = $("#player" + (i + 1)).val();
         var char = $("#char" + (i + 1)).val();
+
+        // if a tag has not been entered, randomize the tag and characterList
+        // (mainly for testing)
         if (tag.trim() == "") {
             tag = placeholders[Math.floor(Math.random() * placeholders.length)];
             char = characterList[Math.floor(Math.random() * characterList.length)];
         }
+
         var tempPlayer = new Player(tag, char, (i + 1), 1);
         players.push(tempPlayer);
     }
@@ -159,6 +163,19 @@ function drawIcon(k, players) {
 
 function drawText(players) {
 
+    var titleText = $("#prTitle").val();
+    var subtitleText = $("#prSubtitle").val();
+    if (titleText.trim() == "") {
+        titleText = "Davis Melee"
+        subtitleText = "Winter 2018 Rankings"
+    }
+    ctx.font = "1.5rem Roboto";
+    ctx.fillStyle = "#000";
+    ctx.textAlign="center";
+    ctx.fillText(titleText, COVER_IMAGE_WIDTH / 2, 50);
+    ctx.font = "1rem Roboto";
+    ctx.fillText(subtitleText, COVER_IMAGE_WIDTH / 2, 70);
+
     for (var i = 0; i < players.length; i++) {
         // get tag for player i, if empty, use placeholder
         var tempPlayer = players[i];
@@ -174,6 +191,7 @@ function drawText(players) {
                 (boxHeight * Math.floor(i % 5));
 
         // draw text on the canvas
+        ctx.textAlign="start";
         ctx.font = "1rem Roboto";
         ctx.fillStyle = "#FFF";
         ctx.fillText(String(i + 1) + ". " + tempPlayer.tag, x, y);
