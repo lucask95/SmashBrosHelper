@@ -237,16 +237,18 @@ function drawText(players) {
     }
 
     // biggest text for the header text
+    // round line join corrects "horns" in strokeText
     ctx.font = "1.5em Roboto";
     ctx.textAlign="center";
     ctx.strokeStyle = "black";
     ctx.lineWidth = 4;
+    ctx.lineJoin = 'round';
     ctx.strokeText(titleText, COVER_IMAGE_WIDTH / 2, 40);
     ctx.fillStyle = "white";
     ctx.fillText(titleText, COVER_IMAGE_WIDTH / 2, 40);
 
     //smaller text for subtitle
-    ctx.font = "1.25em Roboto";
+    ctx.font = "1.15em Roboto";
     ctx.lineWidth = 4;
     ctx.strokeText(subtitleText, COVER_IMAGE_WIDTH / 2, 60);
     ctx.fillText(subtitleText, COVER_IMAGE_WIDTH / 2, 60);
