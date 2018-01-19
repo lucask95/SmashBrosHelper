@@ -110,9 +110,7 @@ function clearCanvas() {
 // returns a list of player objects
 function getPlayers() {
     // these lists are just to save time during testing
-    var tagList = ["Kevbot", "Kenji", "Luan", "PoeFire", "Smilotron", "ccdm",
-    "Dana", "Mao", "Zhyrri", "Corporate", "Russian", "ZemCitrus", "Panic", "mjay",
-    "Slim", "Nug", "Toxcic", "Raer", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
+    var tagList = ["Smilotron", "Armada", "Hungrybox", "Mango", "Mew2King", "Plup",
     "Leffen", "ChuDat", "SFAT", "Axe", "Wizzrobe", "DizzKidBoogie"];
 
     var charList = ["Fox", "Falco", "Marth", "Sheik", "Peach", "Jigglypuff",
@@ -320,6 +318,7 @@ function drawBgImage() {
 
         img.onload = function() {
             // calculate the proper x and y coordinates for a centered image
+            // then draw it on the canvas
             var xcoord = (img.width - canvas.width) / -2;
             var ycoord = (img.height - canvas.height) / -2;
             ctx.drawImage(img, xcoord, ycoord);
@@ -331,6 +330,7 @@ function drawBgImage() {
         img.src = event.target.result;
     }
 
+    // read the file if one has been specified
     if (file)
         reader.readAsDataURL(file);
     else {

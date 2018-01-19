@@ -18,3 +18,7 @@ canvas {
     padding: 15px;
     border-radius: 2px;
 }
+
+#canvasArea {
+    margin: 15px 25px;
+}
