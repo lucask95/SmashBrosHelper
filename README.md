@@ -1,3 +1,3 @@
-# SmashBrosHelper
+# Melee PR Generator
 
-Tool intended to generate PR images for Smash Bros Facebook groups to use as cover photos.
+Web application intended to generate PR images for Smash Bros Facebook groups to use as cover photos.
